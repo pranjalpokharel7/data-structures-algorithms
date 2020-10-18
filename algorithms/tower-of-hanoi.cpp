@@ -56,14 +56,6 @@ class TowerOfHanoi {
         }
 };
 
-void towerVisualized(int total_num_of_disks, vector<char>& start_rod, vector<char>& dest_rod, 
-        vector<char>& aux_rod){
-    if (total_num_of_disks == 1){
-        start_rod[0] = ' ';
-        dest_rod[0] = total_num_of_disks + '0'; 
-    }
-}
-
 int main(){
     int n;
     cout << "Enter the number of disks: ";
