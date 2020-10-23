@@ -1,27 +1,34 @@
 #include <stdio.h> 
+#include "sorting_header.h"
 
-void print_array(int* arr, int n){
-    for (int i = 0; i < n; i++)
-        printf("%d ", *(arr+i));
-    printf("\n"); 
-}
-
-void insertion_sort(int* arr, int n){
+void insertion_sort(int* array, int size){
     int j, key;
-    for (int i = 1  ; i < n; i++){
+    for (int i = 1; i < size; i++){
         j = i - 1;
-        key = *(arr + i);
-        while (j >=0 && *(arr + j) > key){
-            *(arr+j+1) = *(arr+j); 
+        key = array[i];
+        while (j >=0 && array[j] > key){
+            array[j+1] = array[j]; 
             j--;
         }
-        *(arr+j+1) = key;
+        array[j+1] = key;
     } 
 }
 
 int main(){
-    int arr[] = { 12, 11, 13, 5, 6}; 
-    int n = sizeof(arr) / sizeof(arr[0]);
-    insertion_sort(arr,n);
-    print_array(arr,n);
+    int size = 100000;
+    int min_rand = 1, max_rand = 10000;
+    int *array = array_random_integers(size, min_rand, max_rand);
+
+    printf("Before sorting: \n");
+    print_array(array, size);
+
+    double time_taken = sort_and_measure_time(array,size,insertion_sort);
+
+    printf("After sorting: \n");
+    print_array(array, size);
+    printf("Time taken to sort the array is : %lf s\n", time_taken);
+    
+    cleanup_array(array); // run this function before the program ends to deallocate memory 
+
+    return 0;
 }
