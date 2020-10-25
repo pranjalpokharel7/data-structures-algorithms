@@ -4,6 +4,12 @@
 #include <stdlib.h>
 #include <time.h>
 
+void swap(int* a, int* b){
+    int t = *a;
+    *a = *b;
+    *b = t;
+}
+
 void print_array(int* array, int size){
     for (int i = 0; i < size; i++)
        printf("%d ", array[i]); 
@@ -28,6 +34,14 @@ int* array_random_integers(int size, int min, int max){
 double sort_and_measure_time(int* array, int size, void (*fp)(int*, int)){ 
     clock_t start = clock();
     (*fp)(array, size);
+    clock_t stop = clock();
+
+    return (double)(stop - start) / CLOCKS_PER_SEC;
+}
+
+double sort_and_measure_time_three_params(int* array, int l, int r, void (*fp)(int*, int, int)){
+    clock_t start = clock();
+    (*fp)(array, l, r);
     clock_t stop = clock();
 
     return (double)(stop - start) / CLOCKS_PER_SEC;

@@ -14,21 +14,20 @@ void insertion_sort(int* array, int size){
     } 
 }
 
-int main(){
-    int size = 100000;
-    int min_rand = 1, max_rand = 10000;
+int main(int argc, char* argv[]){
+    int size, min_rand, max_rand;
+    
+    size = argc >= 2 ? atoi(argv[1]) : 1000000;
+    min_rand = argc >= 3 ? atoi(argv[2]) : 1;
+    max_rand = argc >= 4 ? atoi(argv[3]) : 100000;
+
     int *array = array_random_integers(size, min_rand, max_rand);
 
-    printf("Before sorting: \n");
     print_array(array, size);
-
     double time_taken = sort_and_measure_time(array,size,insertion_sort);
-
-    printf("After sorting: \n");
     print_array(array, size);
-    printf("Time taken to sort the array is : %lf s\n", time_taken);
     
+    printf("Time taken to sort the array is : %lf s\n", time_taken);
     cleanup_array(array); // run this function before the program ends to deallocate memory 
-
     return 0;
 }

@@ -38,14 +38,21 @@ void merge_sort(int* array, int p, int r){
     } 
 }
 
-int main(){
-    int size = 1000000;
-    int min_rand = 1, max_rand = 10000;
-    int* a = array_random_integers(size, min_rand, max_rand);
+int main(int argc, char* argv[]){
+    int size, min_rand, max_rand;
+    
+    size = argc >= 2 ? atoi(argv[1]) : 1000000;
+    min_rand = argc >= 3 ? atoi(argv[2]) : 1;
+    max_rand = argc >= 4 ? atoi(argv[3]) : 100000;
+    
+    int* array = array_random_integers(size, min_rand, max_rand);
 
-    printf("Unsorted Array: \n");
-    print_array(a, size);
-    merge_sort(a, 0, size-1); // have not made a function in the header file to accept three argument functions, work remaining
-    printf("Sorted Array: \n");
-    print_array(a, size);
+    print_array(array, size);
+    double time_taken = sort_and_measure_time_three_params(array, 0, 
+            size-1, merge_sort);
+    print_array(array, size);
+
+    printf("Time taken to sort is : %lf \n", time_taken);
+    cleanup_array(array);
+    return 0;
 }
