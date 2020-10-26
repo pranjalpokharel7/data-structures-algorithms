@@ -38,6 +38,10 @@ void merge_sort(int* array, int p, int r){
     } 
 }
 
+void merge_sort_wrapper(int* array, int size){
+    merge_sort(array, 0, size-1);
+}
+
 int main(int argc, char* argv[]){
     int size, min_rand, max_rand;
     
@@ -48,8 +52,8 @@ int main(int argc, char* argv[]){
     int* array = array_random_integers(size, min_rand, max_rand);
 
     print_array(array, size);
-    double time_taken = sort_and_measure_time_three_params(array, 0, 
-            size-1, merge_sort);
+    double time_taken = sort_and_measure_time(array,
+            size, merge_sort_wrapper);
     print_array(array, size);
 
     printf("Time taken to sort is : %lf \n", time_taken);

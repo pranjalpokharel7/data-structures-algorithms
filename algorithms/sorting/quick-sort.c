@@ -24,6 +24,10 @@ void quick_sort(int* array, int l, int r){
     quick_sort(array, m+1, r);
 }
 
+void quick_sort_wrapper(int* array, int size){
+    quick_sort(array, 0, size-1);
+}
+
 int main(int argc, char* argv[]){
     int size, min_rand, max_rand;
     
@@ -31,11 +35,10 @@ int main(int argc, char* argv[]){
     min_rand = argc >= 3 ? atoi(argv[2]) : 1;
     max_rand = argc >= 4 ? atoi(argv[3]) : 100000;
 
-    int *array = array_random_integers(size, min_rnd, max_rnd);
+    int *array = array_random_integers(size, min_rand, max_rand);
 
     print_array(array, size);
-    double time_taken = sort_and_measure_time_three_params(array, 0,
-            size-1, quick_sort);
+    double time_taken = sort_and_measure_time(array, size, quick_sort_wrapper);
     print_array(array, size);
 
     printf("Time taken to sort is: %lf \n",time_taken);

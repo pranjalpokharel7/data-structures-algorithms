@@ -39,14 +39,6 @@ double sort_and_measure_time(int* array, int size, void (*fp)(int*, int)){
     return (double)(stop - start) / CLOCKS_PER_SEC;
 }
 
-double sort_and_measure_time_three_params(int* array, int l, int r, void (*fp)(int*, int, int)){
-    clock_t start = clock();
-    (*fp)(array, l, r);
-    clock_t stop = clock();
-
-    return (double)(stop - start) / CLOCKS_PER_SEC;
-}
-
 void cleanup_array(int* array){
     free(array);
 }
