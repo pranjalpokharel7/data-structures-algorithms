@@ -17,15 +17,15 @@ class MaxHeap{
     int index;
     int size;
 
-    int leftChildIndex(int i){
+    int leftChild(int i){
       return i * 2 + 1;
     }
 
-    int rightChildIndex(int i){
+    int rightChild(int i){
       return i * 2 + 2;
     }
 
-    int parentNodeIndex(int i){
+    int parentNode(int i){
       return (i-1)/2;
     }
 
@@ -51,19 +51,15 @@ class MaxHeap{
     }
 
     void maxHeapify(int i){
-      if (isLeaf(i))
-        return;
+      int newParent = i;
+      if (leftChild(i) < size && heap[leftChild(i)] > heap[newParent]) 
+        newParent = leftChild(i);
+      if (rightChild(i) < size && heap[rightChild(i)] > heap[newParent])
+        newParent = rightChild(i);
 
-      if (heap[i] < heap[leftChildIndex(i)] || 
-          heap[i] < heap[rightChildIndex(i)]){
-        if (heap[leftChildIndex(i)] > heap[rightChildIndex(i)]) {
-          swap(&heap[i], &heap[leftChildIndex(i)]);
-          maxHeapify(leftChildIndex(i)); 
-        }
-        else {
-          swap(&heap[i], &heap[rightChildIndex(i)]);
-          maxHeapify(rightChildIndex(i)); 
-        }
+      if (newParent != i){
+        swap(&heap[i], &heap[newParent]);
+        maxHeapify(newParent);
       }
     }
 
@@ -92,9 +88,9 @@ class MaxHeap{
       heap[index] = data; 
 
       int i = index;
-      while (parentNodeIndex(i) >= 0 && heap[i] > heap[parentNodeIndex(i)]){
-        swap(&heap[i], &heap[parentNodeIndex(i)]);
-        i = parentNodeIndex(i);
+      while (parentNode(i) >= 0 && heap[i] > heap[parentNode(i)]){
+        swap(&heap[i], &heap[parentNode(i)]);
+        i = parentNode(i);
       }
     }
 
@@ -110,8 +106,8 @@ class MaxHeap{
     void displayHeap(){
       for (int i = 0; i <= index/2; i++){
         std::cout << " PARENT : " << heap[i] << " LEFT CHILD : "  
-          << heap[leftChildIndex(i)] << " RIGHT CHILD :" 
-          << heap[rightChildIndex(i)] << "\n";
+          << heap[leftChild(i)] << " RIGHT CHILD :" 
+          << heap[rightChild(i)] << "\n";
       }
       std::cout << "\n";
     }
