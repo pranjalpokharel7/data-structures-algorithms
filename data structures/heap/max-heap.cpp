@@ -11,50 +11,33 @@ class HeapException : public std::exception{
     const char * what() {return err_msg.c_str();}
 };
 
+template<class DataType>
+void swap(DataType* a, DataType* b){
+  DataType t = *a;
+  *a = *b;
+  *b = t;
+}
+
+template<class DataType, int Size>
 class MaxHeap{
   private:
-    int* heap;
-    int index;
-    int size;
+    DataType heap[Size];
+    int index = -1;
 
-    int leftChild(int i){
-      return i * 2 + 1;
-    }
+    int leftChild(int i) const{ return i * 2 + 1; }
+    int rightChild(int i) const{ return i * 2 + 2; }
+    int parentNode(int i) const{ return (i-1)/2; }
+    int heightOfHeap() const{ return std::log2(index) + 1; }
 
-    int rightChild(int i){
-      return i * 2 + 2;
-    }
-
-    int parentNode(int i){
-      return (i-1)/2;
-    }
-
-    int heightOfHeap(){
-      return std::log2(index) + 1; 
-    }
-    void swap(int* a, int* b){
-      int t = *a;
-      *a = *b;
-      *b = t;
-    }
-
-    bool heapIsEmpty(){
-      return index == -1;
-    }
-
-    bool heapIsFull(){
-      return index == size;
-    }
-
-    bool isLeaf(int i){
-      return index <= (2 * i +1) && i <= index;
-    }
+    bool heapIsEmpty() const{ return index == -1; }
+    bool heapIsFull() const{ return index == Size; }
+    bool isLeaf(int i) const{ return index <= (2 * i +1) && i <= index; }
 
     void maxHeapify(int i){
       int newParent = i;
-      if (leftChild(i) < size && heap[leftChild(i)] > heap[newParent]) 
+      if (leftChild(i) < Size && heap[leftChild(i)] > heap[newParent]) 
         newParent = leftChild(i);
-      if (rightChild(i) < size && heap[rightChild(i)] > heap[newParent])
+      if (rightChild(i) < Size && heap[rightChild(i)] > heap[newParent])
         newParent = rightChild(i);
 
       if (newParent != i){
@@ -64,16 +47,12 @@ class MaxHeap{
     }
 
   public:
-    MaxHeap(int s):size(s){
-      heap = new int[size]; 
-      index = -1;
+    MaxHeap(){
+      if (Size <= 0)
+        throw HeapException("Enter a valid size for the heap!");
     }
 
-    ~MaxHeap(){
-      delete [] heap;
-    }
-
-    void insertItem(int data){
+    void insertItem(DataType data){
       if (heapIsFull()){
         throw HeapException("Heap is Full!");
       }
@@ -84,8 +63,7 @@ class MaxHeap{
         return;
       }
 
-      index++;
-      heap[index] = data; 
+      heap[++index] = data; 
 
       int i = index;
       while (parentNode(i) >= 0 && heap[i] > heap[parentNode(i)]){
@@ -94,8 +72,8 @@ class MaxHeap{
       }
     }
 
-    int returnMax(){
-      int max = heap[0];
+    DataType returnMax(){
+      DataType max = heap[0];
       heap[0] = heap[index];
       heap[index] = 0;
       index--;
@@ -103,30 +81,36 @@ class MaxHeap{
       return max;
     }
 
-    void displayHeap(){
+    void displayHeap () const{
       for (int i = 0; i <= index/2; i++){
         std::cout << " PARENT : " << heap[i] << " LEFT CHILD : "  
           << heap[leftChild(i)] << " RIGHT CHILD :" 
-          << heap[rightChild(i)] << "\n";
+          << heap[rightChild(i)] << std::endl;
       }
-      std::cout << "\n";
+      std::cout << std::endl;
     }
 };
 
+
 int main(){
-  MaxHeap h1(10);
-  h1.insertItem(10);
-  h1.insertItem(5);
-  h1.insertItem(5);
-  h1.insertItem(5);
-  h1.insertItem(5);
-  h1.insertItem(4);
-  h1.insertItem(8);
-  h1.insertItem(7);
+  MaxHeap<int, 10> h1;
+  try {
+    h1.insertItem(10);
+    h1.insertItem(5);
+    h1.insertItem(5);
+    h1.insertItem(5);
+    h1.insertItem(5);
+    h1.insertItem(4);
+    h1.insertItem(8);
+    h1.insertItem(7);
 
-  h1.displayHeap();
+    h1.displayHeap();
 
-  int max = h1.returnMax();
-  std::cout << "The maximum value in the heap is : " << max << "\n";
-  h1.displayHeap();
+    int max = h1.returnMax();
+    std::cout << "The maximum value in the heap is : " << max << std::endl;
+    h1.displayHeap();
+  }
+  catch (HeapException& e){
+    std::cerr << e.what();
+  }
 }
