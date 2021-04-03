@@ -1,4 +1,5 @@
 #include <stdio.h> 
+#include <stdlib.h>
 #include "sorting_header.h"
 
 void insertion_sort(int* array, int size){

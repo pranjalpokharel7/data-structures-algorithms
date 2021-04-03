@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "sorting_header.h"
 
 // we choose the first element of the array as the pivot element

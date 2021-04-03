@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "sorting_header.h"
 
 void max_heapify(int* array, int size, int index){
