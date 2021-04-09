@@ -6,7 +6,8 @@
 void merge_arrays(int *array, int p, int q, int r){
     int n_left = q-p+1; // compute the length of first half of array
     int n_right = r-q; // compute the length of last half of array
-    int left[n_left+1], right[n_right+1]; 
+    int* left = malloc((n_left + 1) * sizeof *left);
+    int* right = malloc((n_left + 1) * sizeof *right);
 
     int i,j,k; 
     for (i=0; i<n_left; i++)
@@ -28,6 +29,9 @@ void merge_arrays(int *array, int p, int q, int r){
             j++;
         }
     } 
+
+    free(left);
+    free(right);
 }
 
 void merge_sort(int* array, int p, int r){
